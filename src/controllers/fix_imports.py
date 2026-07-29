@@ -1,14 +1,13 @@
 import os
 import glob
 
-workspace = '/home/rover/new1/src/controllers'
+workspace = os.path.dirname(os.path.abspath(__file__))
 
 replacements = [
     ('mega_dagger.', 'scripts.'),
     ('from mega_dagger import', 'from scripts import'),
     ('from scripts.novice_policy import NovicePolicy', 'from scripts.policy_network import PolicyNetwork as NovicePolicy'), 
     ('from mega_dagger.novice_policy import NovicePolicy', 'from scripts.policy_network import PolicyNetwork as NovicePolicy'),
-    ('~/ros2_ws/src/mega_dagger', '~/new1/src/controllers'),
     ("package='mega_dagger'", "package='controllers'"),
     ("get_package_share_directory('mega_dagger')", "get_package_share_directory('controllers')"),
     ('ros2 launch mega_dagger mega_dagger.launch.py', 'ros2 launch controllers mega_dagger_launch.py'),

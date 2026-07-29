@@ -9,7 +9,8 @@ from sensor_msgs.msg import LaserScan
 from geometry_msgs.msg import Twist
 from std_msgs.msg import Bool
 
-sys.path.insert(0, os.path.expanduser('~/new1/src/controllers'))
+pkg_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, pkg_root)
 from scripts.policy_network import PolicyNetwork
 
 
@@ -21,10 +22,8 @@ class NoviceInferenceNode(Node):
         self.declare_parameter('rate', 20.0)
 
         weights = self.get_parameter('weights_path').value
-        if not weights:
-            weights = os.path.expanduser(
-                '~/new1/src/controllers/weights/ego_policy.pt'
-            )
+        if not weights or not os.path.exists(weights):
+            weights = os.path.join(pkg_root, 'weights', 'ego_policy.pt')
         self.max_range = self.get_parameter('max_range').value
 
         self.model = PolicyNetwork(input_dim=1080, output_dim=2)

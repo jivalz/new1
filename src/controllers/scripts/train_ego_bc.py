@@ -28,7 +28,7 @@ def main():
     args = parser.parse_args()
 
     # ── Resolve paths ─────────────────────────────────────────────────────────
-    pkg_root = os.path.expanduser('~/new1/src/controllers')
+    pkg_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     data_dir = args.data_dir or os.path.join(pkg_root, 'data', 'ego_data', 'bc_data')
     weights_dir = os.path.join(pkg_root, 'weights')
     os.makedirs(weights_dir, exist_ok=True)

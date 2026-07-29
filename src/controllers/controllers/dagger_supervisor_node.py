@@ -9,7 +9,8 @@ from std_msgs.msg import Bool
 import numpy as np
 import sys
 import os
-sys.path.insert(0, os.path.expanduser('~/new1/src/controllers'))
+pkg_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+sys.path.insert(0, pkg_root)
 from scripts.cbf import CBFdf
 
 class DaggerSupervisorNode(Node):

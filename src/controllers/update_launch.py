@@ -1,7 +1,6 @@
-import os
-
-controllers_launch = '/home/rover/new1/src/controllers/launch/novice_inference_launch.py'
-mega_launch = '/home/rover/new1/src/controllers/launch/mega_dagger_launch.py'
+pkg_root = os.path.dirname(os.path.abspath(__file__))
+controllers_launch = os.path.join(pkg_root, 'launch', 'novice_inference_launch.py')
+mega_launch = os.path.join(pkg_root, 'launch', 'mega_dagger_launch.py')
 
 with open(controllers_launch, 'r') as f:
     c_lines = f.readlines()
@@ -155,7 +154,7 @@ def generate_launch_description():
                         ('/ego/done', '/lead/done'),
                     ],
                     parameters=[{
-                        'data_dir': os.path.expanduser('~/new1/src/controllers/data/lead_waypoint'),
+                        'data_dir': os.path.join(controllers_pkg, 'data', 'lead_data', 'lead_waypoint'),
                         'lookahead': 1.2,
                         'speed': 1.5,
                         'max_angular': 2.5,

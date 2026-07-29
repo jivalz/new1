@@ -50,9 +50,10 @@ class MegaDaggerExpertNode(Node):
 
         # Read parameters
         data_dir = self.get_parameter('data_dir').value
-        if not data_dir:
+        if not data_dir or not os.path.exists(data_dir):
             import os
-            data_dir = os.path.expanduser('~/new1/src/controllers/data/waypoint_files')
+            pkg_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            data_dir = os.path.join(pkg_root, 'data', 'waypoint_files')
 
         wp_files = self.get_parameter('waypoint_files').value
         self.Ld = self.get_parameter('lookahead_distance').value

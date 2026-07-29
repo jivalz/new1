@@ -1,6 +1,5 @@
-import os
-
-launch_file = '/home/rover/new1/src/controllers/launch/mega_dagger_launch.py'
+pkg_root = os.path.dirname(os.path.abspath(__file__))
+launch_file = os.path.join(pkg_root, 'launch', 'mega_dagger_launch.py')
 
 new_launch = """import os
 import math
@@ -104,7 +103,7 @@ def generate_launch_description():
                         ('/ego/done', '/lead/done'),
                     ],
                     parameters=[{
-                        'data_dir': os.path.expanduser('~/new1/src/controllers/data/lead_waypoint'),
+                        'data_dir': os.path.join(controllers_pkg, 'data', 'lead_data', 'lead_waypoint'),
                         'lookahead': 1.2,
                         'speed': 1.5,
                         'max_angular': 2.5,

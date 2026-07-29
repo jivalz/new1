@@ -32,8 +32,9 @@ class DataCollectorNode(Node):
 
         self.expert_id = self.get_parameter('expert_id').value
         ws = self.get_parameter('workspace').value
-        if not ws:
-            ws = os.path.expanduser('~/new1/src/controllers')
+        pkg_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        if not ws or not os.path.exists(ws):
+            ws = pkg_root
         data_dir = os.path.join(ws, 'data')
         
         save_folder = self.get_parameter('save_folder').value

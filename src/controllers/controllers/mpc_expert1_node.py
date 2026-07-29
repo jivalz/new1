@@ -194,8 +194,9 @@ class BasicMPCNode(Node):
         self.declare_parameter('v_max', 3.5)
 
         data_dir = self.get_parameter('data_dir').value
-        if not data_dir:
-            data_dir = os.path.expanduser('~/new1/src/controllers/data/ego_data/mpc_trajec')
+        if not data_dir or not os.path.exists(data_dir):
+            pkg_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            data_dir = os.path.join(pkg_root, 'data', 'ego_data', 'mpc_trajec')
             
         rate = self.get_parameter('rate').value
         N = self.get_parameter('horizon').value

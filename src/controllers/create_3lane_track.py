@@ -224,14 +224,15 @@ def main():
     plt.legend()
     plt.title("Optimal Racing Line (3-Lane Track)")
     
-    png_path = os.path.expanduser('~/new1/src/controllers/data/optimal_racing_line.png')
+    pkg_root = os.path.dirname(os.path.abspath(__file__))
+    png_path = os.path.join(pkg_root, 'data', 'optimal_racing_line.png')
     os.makedirs(os.path.dirname(png_path), exist_ok=True)
     plt.savefig(png_path)
     plt.close()
     print(f"Saved optimal racing line PNG to {png_path}")
     
     # Save optimal racing line as npz waypoint file for controllers
-    wps_path = os.path.expanduser('~/new1/src/controllers/data/ego_data/mpc_trajec/optimal_racing_line_waypoint.npz')
+    wps_path = os.path.join(pkg_root, 'data', 'ego_data', 'mpc_trajec', 'optimal_racing_line_waypoint.npz')
     os.makedirs(os.path.dirname(wps_path), exist_ok=True)
     poses = np.column_stack((racing_x, racing_y))
     np.savez_compressed(wps_path, poses=poses)
@@ -262,7 +263,7 @@ def main():
         outer_x.append(x_new[i] + lane_offset * math.cos(ang_outer))
         outer_y.append(y_new[i] + lane_offset * math.sin(ang_outer))
 
-    save_dir = os.path.expanduser('~/new1/src/controllers/data/ego_data/3lane_files')
+    save_dir = os.path.join(pkg_root, 'data', 'ego_data', '3lane_files')
     os.makedirs(save_dir, exist_ok=True)
     
     np.savez_compressed(os.path.join(save_dir, 'middle_lane.npz'), poses=np.column_stack((x_new, y_new)))
@@ -326,7 +327,7 @@ def main():
         
         print(f"World successfully generated at {output_path}")
 
-    out_path = '/home/rover/new1/src/controllers/worlds/3lane_track.world'
+    out_path = os.path.join(pkg_root, 'worlds', '3lane_track.world')
     generate_world(out_path)
 
 if __name__ == '__main__':

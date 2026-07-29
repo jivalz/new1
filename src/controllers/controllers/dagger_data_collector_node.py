@@ -32,7 +32,7 @@ class DaggerDataCollectorNode(Node):
         self.expert_id = self.get_parameter('expert_id').value
         data_dir = self.get_parameter('data_dir').value
         if not data_dir:
-            ws = os.path.expanduser('~/new1/src/controllers')
+            ws = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
             data_dir = os.path.join(ws, 'data')
         self.data_dir = os.path.join(data_dir, 'ego_data', 'dagger', f'dagger_{self.expert_id}')
         os.makedirs(self.data_dir, exist_ok=True)

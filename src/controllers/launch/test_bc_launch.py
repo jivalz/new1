@@ -10,6 +10,14 @@ def generate_launch_description():
     lead_car_pkg = get_package_share_directory('lead_car_description')
     ego_car_pkg = get_package_share_directory('ego_car_description')
     
+    lead_waypoint_dir = os.path.join(controllers_pkg, 'data', 'lead_data', 'lead_waypoint')
+    if not os.path.exists(lead_waypoint_dir):
+        lead_waypoint_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data', 'lead_data', 'lead_waypoint'))
+    
+    ego_weights_path = os.path.join(controllers_pkg, 'weights', 'ego_policy.pt')
+    if not os.path.exists(ego_weights_path):
+        ego_weights_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'weights', 'ego_policy.pt'))
+    
     world = os.path.join(controllers_pkg, 'worlds', '3lane_track.world')
     lead_sdf = os.path.join(lead_car_pkg, 'models', 'lead_car', 'model.sdf')
     ego_sdf = os.path.join(ego_car_pkg, 'models', 'ego_car', 'model.sdf')
@@ -95,7 +103,7 @@ def generate_launch_description():
                         ('/ego/done', '/lead/done'),
                     ],
                     parameters=[{
-                        'data_dir': os.path.expanduser('~/new1/src/controllers/data/lead_data/lead_waypoint'),
+                        'data_dir': lead_waypoint_dir,
                         'lookahead': 1.6,
                         'speed': 3.0,
                         'max_angular': 2.5,
@@ -119,7 +127,7 @@ def generate_launch_description():
                         ('/done', '/ego/done'),
                     ],
                     parameters=[{
-                        'weights_path': os.path.expanduser('~/new1/src/controllers/weights/ego_policy.pt')
+                        'weights_path': ego_weights_path
                     }],
                 ),
             ],
@@ -137,7 +145,7 @@ def generate_launch_description():
                     parameters=[{
                         'expert_id': 9999,
                         'save_folder': 'ego_data/eval_bc',
-                        'workspace': '/home/rover/new1/src/controllers',
+                        'workspace': controllers_pkg,
                         'gate_x': -8.0,
                         'gate_y': 0.0,
                         'gate_yaw': -1.57,

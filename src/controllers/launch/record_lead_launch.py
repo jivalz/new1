@@ -129,7 +129,7 @@ def generate_launch_description():
                     parameters=[{
                         'expert_id': 0,
                         'save_folder': 'lead_data',
-                        'workspace': '/home/rover/new1/src/controllers',
+                        'workspace': controllers_pkg,
                         'gate_x': -8.0,
                         'gate_y': 0.0,
                         'gate_yaw': -1.57,

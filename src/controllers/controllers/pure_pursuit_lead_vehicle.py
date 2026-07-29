@@ -27,10 +27,9 @@ class PurePursuitLeadVehicleNode(Node):
         self.declare_parameter('max_angular', 2.5)
 
         data_dir = self.get_parameter('data_dir').value
-        if not data_dir:
-            data_dir = os.path.expanduser(
-                '~/new1/src/controllers/data/lead_data/lead_waypoint'
-            )
+        if not data_dir or not os.path.exists(data_dir):
+            pkg_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+            data_dir = os.path.join(pkg_root, 'data', 'lead_data', 'lead_waypoint')
         self.lookahead = self.get_parameter('lookahead').value
         self.speed = self.get_parameter('speed').value
         self.max_ang = self.get_parameter('max_angular').value

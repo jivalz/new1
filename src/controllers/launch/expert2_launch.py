@@ -23,8 +23,9 @@ def generate_launch_description():
     # Lead car spawn (start line, center lane)
     lead_x, lead_y, lead_yaw = -8.0, 0.0, -1.57
     
-    # Ego car spawn (left lane, 1.2m behind)
-    ego_x, ego_y, ego_yaw = -6.5, 1.2, -1.57
+    # Ego car spawn (middle lane, 1.5m behind)
+    # Track goes South (-Y). Center is -8.0.
+    ego_x, ego_y, ego_yaw = -8.0, 1.5, -1.57
     
     ld = [
         # Gazebo
@@ -82,7 +83,7 @@ def generate_launch_description():
 
         # Pure Pursuit driving the lead car
         TimerAction(
-            period=15.0,
+            period=14.0,
             actions=[
                 Node(
                     package='controllers',
@@ -97,68 +98,20 @@ def generate_launch_description():
                 ),
             ],
         ),
-
-        # Joy Node
+        
+        # Expert driving the ego car
         TimerAction(
-            period=4.0,
+            period=14.0,
             actions=[
                 Node(
-                    package='joy',
-                    executable='joy_node',
-                    name='joy_node',
+                    package='controllers',
+                    executable='mpc_expert2_node',
+                    name='mpc_expert2_node',
                     output='screen',
-                    parameters=[{
-                        'device_id': 0,
-                        'deadzone': 0.1,
-                        'autorepeat_rate': 20.0,
-                    }],
                 ),
             ],
         ),
         
-        # Custom Teleop Node (Driving Ego)
-        TimerAction(
-            period=4.5,
-            actions=[
-                Node(
-                    package='controllers',
-                    executable='teleop',
-                    name='teleop',
-                    output='screen',
-                    remappings=[
-                        ('/cmd_vel', '/ego/cmd_vel'),
-                    ],
-                ),
-            ],
-        ),
-        
-        # Data Collector Node (Ego Data)
-        TimerAction(
-            period=13.0,
-            actions=[
-                Node(
-                    package='controllers',
-                    executable='data_collector_node',
-                    name='data_collector',
-                    output='screen',
-                    parameters=[{
-                        'expert_id': 0,
-                        'save_folder': 'ego_data/bc_data/expert_0',
-                        'workspace': controllers_pkg,
-                        'gate_x': -8.0,  # Left lane start
-                        'gate_y': 0.0,
-                        'gate_yaw': -1.57,
-                        'record': True,
-                    }],
-                    remappings=[
-                        ('/scan', '/ego/scan'),
-                        ('/odom', '/ego/odom'),
-                        ('/cmd_vel', '/ego/cmd_vel'),
-                    ],
-                ),
-            ],
-        ),
-
         # Lap counter for ego car
         TimerAction(
             period=5.0,
@@ -178,5 +131,6 @@ def generate_launch_description():
                 ),
             ],
         ),
+
     ]
     return LaunchDescription(ld)
